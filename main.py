@@ -37,18 +37,21 @@ def return_result():
 
 @app.route('/short/<url_token>', methods=['GET'])
 def redirect_to_original_url(url_token):
-    """Redirects the user to the original URL associated with the shortened token.
+    """
+    Redirects the user to the original URL associated with the shortened token.
+    If an incorrect URL is entered, redirects to the home page.
 
     Args:
         url_token (str): the token to find the original URL for
 
     """
-    # Consider error management, what if a user enters an invalid token?
-    # IF statement, if nothing found redirect to the home page.
-    original_url = url_processor.get_original_url(active_tokens, url_token)
+    try:
+        original_url = url_processor.get_original_url(active_tokens, url_token)
+    except KeyError:
+        return redirect('/', code=404)
+    
     return redirect(original_url, code=302)
     
-    
-    
+
 if __name__ == "__main__":
     app.run(debug=False)
