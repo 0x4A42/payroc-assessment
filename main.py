@@ -15,6 +15,7 @@ def return_index():
     """
     if request.method == 'GET':
         # Consider what to do if someone doesn't enter a proper URL. Validation, etc.
+        print(active_tokens)
         return render_template('home.html')
 
 
@@ -28,13 +29,13 @@ def return_result():
     if request.method == 'GET':
         return redirect('/', code=301)
     else:
-        #user_input = request.form['urlName']
-        # shortened_url =
-        return render_template('results.html')
-        # return render_template('results.html', url_result=shortened_url)
+        user_input = request.form['urlName']
+        shortened_url = url_processor.generate_url_token(active_tokens)
+        url_processor.add_url_token(active_tokens, shortened_url, user_input)
+        return render_template('results.html', url_result="http://localhost:5000/short/" + shortened_url)
 
 
-@app.route('/<url_token>', methods=['GET'])
+@app.route('/short/<url_token>', methods=['GET'])
 def redirect_to_original_url(url_token):
     """Redirects the user to the original URL associated with the shortened token.
 
