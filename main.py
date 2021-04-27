@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect
+import url_processor
 
 
 app = Flask(__name__)
@@ -32,5 +33,19 @@ def return_result():
         # return render_template('results.html', url_result=shortened_url)
 
 
+@app.route('/<url_token>', methods=['GET'])
+def redirect_to_original_url(url_token):
+    """Redirects the user to the original URL associated with the shortened token.
+
+    Args:
+        url_token (str): the token to find the original URL for
+
+    """
+    original_url = url_processor.get_original_url(active_tokens, url_token)
+    print(original_url)
+    return redirect(original_url, code=302)
+    
+    
+    
 if __name__ == "__main__":
     app.run(debug=False)

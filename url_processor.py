@@ -6,7 +6,7 @@ import random
 """
 
 
-def generate_url_token(active_tokens, token_length=7) -> str:
+def generate_url_token(active_tokens, token_length=7):
     """
     Generates a token (generated from letters and numbers) to be used for the shortened URL. Loop ensures that the token is currently not in use to avoid overriding.
 
@@ -55,3 +55,15 @@ def add_url_token(active_tokens, url_token, original_url):
 
     """
     active_tokens[url_token] = original_url
+
+
+def get_original_url(active_tokens, url_token):
+    """Retrieves the original URL from the dictionary to redirect the user when they enter the shortened URL.
+
+    Args:
+        active_tokens (dict): the dictionary containing all current shortened urls (K = shortened token, V = original URL)
+        url_token (str): the token to retrieve the URL from
+    Returns:
+        (str): the original URL
+    """
+    return active_tokens[url_token]
