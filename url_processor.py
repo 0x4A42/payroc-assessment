@@ -31,17 +31,20 @@ def generate_url_token(active_tokens, token_length=7) -> str:
 
 def check_url_token(token, url_token_to_check):
     """
-    Generates a token to be used for the shortened URL.
+    Checks if the currently generated shortened token is currently in use. If so, returns True. Else, returns False.
 
     Args:
         url_token_to_check (str): The potential shortened URL token.
     Returns:
         bool: the return value. True if it is in use, else False.
     """
-    pass
+    if token in url_token_to_check:
+        return True
+    else:
+        return False
 
 
-def add_url_token(url_token_to_check, original_url):
+def add_url_token(active_tokens, url_token, original_url):
     """
     Adds the shortened url token to the global dictionary. This will be called once validation (check_url_token) has
     ensured the token is valid.
@@ -51,4 +54,4 @@ def add_url_token(url_token_to_check, original_url):
         original_url (str): the original URL to store in the dictionary as the value.
 
     """
-    pass
+    active_tokens[url_token] = original_url
