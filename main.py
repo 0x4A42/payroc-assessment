@@ -42,7 +42,6 @@ def redirect_to_original_url(url_token):
 
     """
     original_url = url_processor.get_original_url(active_tokens, url_token)
-    print(original_url)
     return redirect(original_url, code=302)
     
     
