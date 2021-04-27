@@ -4,6 +4,8 @@ from flask import Flask, render_template, request, redirect
 app = Flask(__name__)
 app.config
 
+# Dictionary that will track shortened tokens currently in use. Key = token name, value = original URL (to retrieve when accessed)
+active_tokens = {}
 
 @app.route('/', methods=['POST', 'GET'])
 def return_index():

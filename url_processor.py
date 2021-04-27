@@ -1,26 +1,42 @@
+import string
+import random
+
 """
     This script will be responsible for the shortening of the URL passed in by the user.
 """
 
 
-def generate_url_token() -> str:
+def generate_url_token(active_tokens, token_length=7) -> str:
     """
-    Generates a token to be used for the shortened URL.
+    Generates a token (generated from letters and numbers) to be used for the shortened URL. Loop ensures that the token is currently not in use to avoid overriding.
 
+    Args:
+        active_tokens (dict): a dictionary containing tokens currently in use. K = token, V = original URL.
+        token_length (int): the length of the token in characters.
     Returns:
         url_token (str): the shortened url token
     """
-    pass
+    
+    continue_loop = True
+    while continue_loop is True:
+        session_token_charset = string.ascii_letters + string.digits
+        token = ''.join((random.choice(session_token_charset)
+                         for i in range(token_length)))
+        if check_url_token(token, active_tokens) is True:
+            continue
+        else:
+            continue_loop = False
+    return token
 
 
-def check_url_token(url_token_to_check):
+def check_url_token(token, url_token_to_check):
     """
     Generates a token to be used for the shortened URL.
 
     Args:
         url_token_to_check (str): The potential shortened URL token.
     Returns:
-        bool: the return value. True if it can be used, else False.
+        bool: the return value. True if it is in use, else False.
     """
     pass
 
