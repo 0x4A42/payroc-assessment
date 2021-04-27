@@ -14,6 +14,7 @@ def return_index():
     Serves the home page to the user to allow them to shorten a URL.
     """
     if request.method == 'GET':
+        # Consider what to do if someone doesn't enter a proper URL. Validation, etc.
         return render_template('home.html')
 
 
@@ -41,6 +42,8 @@ def redirect_to_original_url(url_token):
         url_token (str): the token to find the original URL for
 
     """
+    # Consider error management, what if a user enters an invalid token?
+    # IF statement, if nothing found redirect to the home page.
     original_url = url_processor.get_original_url(active_tokens, url_token)
     return redirect(original_url, code=302)
     
