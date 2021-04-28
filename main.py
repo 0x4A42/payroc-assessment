@@ -15,8 +15,7 @@ def return_index():
     """
     if request.method == 'GET':
         # Consider what to do if someone doesn't enter a proper URL. Validation, etc.
-        print(active_tokens)
-        return render_template('home.html')
+        return render_template('home.html', is_home='yes')
 
 
 @app.route('/results', methods=['POST', 'GET'])
@@ -27,8 +26,9 @@ def return_result():
     Else, generates a shortened URL and displays it to the user.
     """
     if request.method == 'GET':
-        return redirect('/', code=301)
+        return redirect('/')
     else:
+        # Consider looking to see if there is already a token for that website, trade off is that this will increase times. 
         user_input = request.form['urlName']
         shortened_url = url_processor.generate_url_token(active_tokens)
         url_processor.add_url_token(active_tokens, shortened_url, user_input)
@@ -50,7 +50,7 @@ def redirect_to_original_url(url_token):
     except KeyError:
         return redirect('/', code=404)
     
-    return redirect(original_url, code=302)
+    return redirect(original_url)
     
 
 if __name__ == "__main__":
