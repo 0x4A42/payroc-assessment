@@ -10,7 +10,7 @@ $(document).ready(function () {
     if (urlToShorten == "" || !urlToShorten.includes(".")) {
       // if input field is empty, disables the submission button and display error to user.
       $("#urlNameID").addClass("is-danger");
-      $("#urlInputWarn").html("Please enter a valid URL such as: 'http://google.com' or 'payroc.com'");
+      $("#urlInputWarn").html("Please enter a valid URL such as: 'http://google.com' or 'payroc.com'.");
       $("#generateLinkButton").prop("disabled", true);
     } else {
       // If the field has valid input, enables button and removes error message.
