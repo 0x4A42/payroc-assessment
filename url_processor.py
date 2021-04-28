@@ -29,16 +29,17 @@ def generate_url_token(active_tokens, token_length=7):
     return token
 
 
-def check_url_token(token, url_token_to_check):
+def check_url_token(token, active_tokens):
     """
     Checks if the currently generated shortened token is currently in use. If so, returns True. Else, returns False.
 
     Args:
-        url_token_to_check (str): The potential shortened URL token.
+        token (str): The potential shortened URL token.
+        active_tokens (dict): the dictionary of current tokens in use (K = token, V = original URL)
     Returns:
         bool: the return value. True if it is in use, else False.
     """
-    if token in url_token_to_check:
+    if token in active_tokens:
         return True
     else:
         return False
