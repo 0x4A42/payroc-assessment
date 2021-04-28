@@ -5,7 +5,7 @@ $(document).ready(function () {
    * Checks if there is any input within the fields of the forms
    * If any mandatory field is empty, disables access to the submit button.
    */
-  $("#urlForm").keyup(function () {
+  $("#urlForm").on("focusout keydown keyup", function () {
     urlToShorten = $("#urlNameID").val();
     if (urlToShorten == "" || !urlToShorten.includes(".")) {
       // if input field is empty, disables the submission button and display error to user.
