@@ -36,7 +36,7 @@ def check_url_token(token, active_tokens):
 
     Args:
         token (str): The potential shortened URL token.
-        active_tokens (dict): the dictionary of current tokens in use (K = token, V = list containing [0] original URL [1] the timestamp for expiry/removal.)
+        active_tokens (dict): a dictionary containing all tokens in use (as a key) and a value list containing [0] original URL [1] the timestamp for expiry/removal.
     Returns:
         bool: the return value. True if it is in use, else False.
     """
@@ -52,7 +52,7 @@ def add_url_token(active_tokens, url_token, original_url, expiry):
     ensured the token is valid.
 
     Args:
-        active_tokens (dict): the dictionary which contains the URL tokens (K), mapped to a list containing [0] original URL [1] the timestamp for expiry/removal.
+        active_tokens (dict): a dictionary containing all tokens in use (as a key) and a value list containing [0] original URL [1] the timestamp for expiry/removal.
         url_token (str): the URL token to add to the dictionary as the key.
         original_url (str): the original URL to store in the dictionary as the [0] entry in the value list.
         expiry (int): a reference to determine how long a shortened link should be stored/active for.
@@ -77,7 +77,7 @@ def get_original_url(active_tokens, url_token):
        Ensures the URL contains http:// prior to returning, as to ensure redirection to an external site.
 
     Args:
-        active_tokens (dict): the dictionary containing all current shortened urls (K = shortened token, V = original URL)
+        active_tokens (dict): a dictionary containing all tokens in use (as a key) and a value list containing [0] original URL [1] the timestamp for expiry/removal.
         url_token (str): the token to retrieve the URL from
     Returns:
         (str): the original URL (prefixes with 'http://' if this was not already there)
@@ -86,3 +86,17 @@ def get_original_url(active_tokens, url_token):
         return active_tokens[url_token][0]
     else:
         return "http://" + active_tokens[url_token][0]
+
+ 
+def check_for_removal(active_tokens):
+    """
+    Iterates through a copy of the active_tokens dictionary, checking the timestamp held in the [1] element of the value list.
+    If the current timestamp > the timestamp marked for expiry within the list, calls for the removal of this from the list.
+
+    Args:
+        active_tokens (dict): a dictionary containing all tokens in use (as a key) and a value list containing [0] original URL [1] the timestamp for expiry/removal.
+    """
+    time_of_checking = datetime.now()
+    for key, value in active_tokens.copy().items():
+        if time_of_checking > value[1]:
+            active_tokens.pop(key)
