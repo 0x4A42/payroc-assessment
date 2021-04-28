@@ -5,7 +5,7 @@ import url_processor
 app = Flask(__name__)
 app.config
 
-# Dictionary that will track shortened tokens currently in use. Key = token name, value = original URL (to retrieve when accessed)
+# Dictionary that will track shortened tokens currently in use. Key = token name, value = list containing [0] original URL (to retrieve when accessed), [1] timestamp of when it should be deleted.
 active_tokens = {}
 
 
@@ -15,7 +15,6 @@ def return_index():
     Serves the home page to the user to allow them to shorten a URL.
     """
     if request.method == 'GET':
-        # Consider what to do if someone doesn't enter a proper URL. Validation, etc.
         return render_template('home.html', is_home='yes')
 
 
@@ -31,9 +30,12 @@ def return_result():
     else:
         # Consider looking to see if there is already a token for that website, trade off is that this will increase times.
         user_input = request.form['urlName']
-        if (len(user_input) > 1) and '.' in user_input: # some additional validation checks in case the user bypasses the javascript validation
+        expiry = request.form['expiryTime']
+        # Some additional validation in case the user bypasses the javascript validation on the form
+        if (len(user_input) > 1) and '.' in user_input:
             shortened_url = url_processor.generate_url_token(active_tokens)
-            url_processor.add_url_token(active_tokens, shortened_url, user_input)
+            url_processor.add_url_token(
+                active_tokens, shortened_url, user_input, expiry)
             return render_template('results.html', url_result="http://localhost:5000/short/" + shortened_url)
         else:
             return redirect('/')

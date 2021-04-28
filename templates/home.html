@@ -17,11 +17,28 @@
   <p class='help is-danger' id='urlInputWarn'> </p>
 </div>
 
+<div class="field">
+  <label class="label">When do you want this link to expire? </label>
+  <div class="control">
+    <div class="select">
+      <select name='expiryTime' id='expiryTimeID'>
+      <option value="1">One Minute</option>
+      <option value="2">One Hour</option>
+      <option value="3">One Day</option>
+      <option value="4">Never</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+
 <div class="field is-grouped">
   <div class="control">
     <input type='submit' class='button is-primary' value='Generate Link' name='submitLink' id='generateLinkButton'>
   </div>
-    </form>
+</div>
+
+</form>
 </div>
 </div>
 

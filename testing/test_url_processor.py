@@ -63,5 +63,6 @@ class FlaskTest(unittest.TestCase):
         self.assertEquals('http://' + original_url, up.get_original_url(active_tokens, 'token_to_retrieve'))
         
         
+        # need to test the expiry function, use fake timestamp objects to ensure we don't need to wait around.
 if __name__ == "__main__":
     unittest.main()
