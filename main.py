@@ -22,7 +22,7 @@ def check_token_expiry():
 
 # Setup of APS Scheduler to call check_token_expiry() every minute to clean up tokens marked for expiry/removal
 scheduler = BackgroundScheduler()
-token_checker = scheduler.add_job(check_token_expiry, 'interval', minute=1)
+token_checker = scheduler.add_job(check_token_expiry, 'interval', minutes=1)
 scheduler.start()
 
 
