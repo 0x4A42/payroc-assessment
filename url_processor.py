@@ -58,15 +58,14 @@ def add_url_token(active_tokens, url_token, original_url, expiry):
         expiry (int): a reference to determine how long a shortened link should be stored/active for.
 
     """
-    expiry_date = ""
-    
-    if expiry == 1:
+
+    if (int) (expiry) == 1:
         expiry_date = datetime.now() + timedelta(minutes=1) # Expires in one minute
-    elif expiry == 2:
+    elif (int) (expiry) == 2:
         expiry_date = datetime.now() + timedelta(hours=1) # Expires in one hour
-    elif expiry == 3:
+    elif (int) (expiry) == 3:
         expiry_date = datetime.now() + timedelta(days=1) # Expires in one day
-    elif expiry == 4:
+    elif (int) (expiry) == 4:
         expiry_date = datetime.now() + timedelta(days=7300) # Expires 'never', still need some sort of limit (20 years)
     
     active_tokens[url_token] = [original_url, expiry_date]

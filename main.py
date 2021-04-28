@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 import url_processor
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 app = Flask(__name__)
@@ -7,6 +8,24 @@ app.config
 
 # Dictionary that will track shortened tokens currently in use. Key = token name, value = list containing [0] original URL (to retrieve when accessed), [1] timestamp of when it should be deleted.
 active_tokens = {}
+
+
+def check_token_expiry():
+    """ Every minute, this function will run using APScheduler.
+    
+        This function simply calls the check_for_removal() function within url_processor, to check for any tokens marked for expiry (and removes any such items).
+    """
+    if len(active_tokens) >= 1:  # Ensures at least one entry, or not worth calling.
+            url_processor.check_for_removal(active_tokens)
+    
+ 
+
+# Setup of APS Scheduler to call check_token_expiry() every minute to clean up tokens marked for expiry/removal
+scheduler = BackgroundScheduler()
+token_checker = scheduler.add_job(check_token_expiry, 'interval', minute=1)
+scheduler.start()
+
+
 
 
 @app.route('/', methods=['GET'])
