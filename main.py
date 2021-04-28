@@ -9,7 +9,7 @@ app.config
 active_tokens = {}
 
 
-@app.route('/', methods=['POST', 'GET'])
+@app.route('/', methods=['GET'])
 def return_index():
     """
     Serves the home page to the user to allow them to shorten a URL.
