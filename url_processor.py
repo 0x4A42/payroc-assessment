@@ -59,6 +59,7 @@ def add_url_token(active_tokens, url_token, original_url):
 
 def get_original_url(active_tokens, url_token):
     """Retrieves the original URL from the dictionary to redirect the user when they enter the shortened URL.
+       Ensures the URL contains http:// prior to returning, as to ensure redirection to an external site.
 
     Args:
         active_tokens (dict): the dictionary containing all current shortened urls (K = shortened token, V = original URL)
@@ -66,4 +67,7 @@ def get_original_url(active_tokens, url_token):
     Returns:
         (str): the original URL
     """
-    return active_tokens[url_token]
+    if 'http://' in active_tokens[url_token]:
+        return active_tokens[url_token]
+    else:
+        return "http://" + active_tokens[url_token]

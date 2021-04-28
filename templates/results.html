@@ -1,11 +1,12 @@
-{% extends 'base.html' %}
-{% block body%}
+{% extends 'base.html' %} {% block body%}
 
 <body>
   <div id="resultsTitle">
     <h1 class="title is-family-monospace">Your Shortened URL:</h1>
   </div>
-  <div id="resultID">Your shortened URL is: <a href= "{{ url_result }}">{{ url_result }}</a>.</div>
+  <div id="resultID">
+    Your shortened URL is: <a href="{{ url_result }}">{{ url_result }}</a>.
+  </div>
 </body>
 
 {% endblock %}

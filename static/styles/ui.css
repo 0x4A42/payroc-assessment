@@ -1,10 +1,20 @@
 #homeTitle {
-    margin-left: 33%;
-    padding-top: 10px;
+  margin-left: 33%;
+  padding-top: 10px;
 }
 
-#urlForm{
-    margin-left: 20%;
-    padding-top: 10px;
-    width: 70%;
+#urlForm {
+  margin-left: 20%;
+  padding-top: 10px;
+  width: 70%;
+}
+
+#resultsTitle {
+  margin-left: 50%;
+  padding-top: 10px;
+}
+
+#resultID {
+  margin-left: 47%;
+  padding-top: 10px;
 }
