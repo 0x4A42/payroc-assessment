@@ -5,7 +5,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 app = Flask(__name__)
 app.config
 
-# Dictionary that will track shortened tokens currently in use. Key = token name, value = list containing
+# Dictionary that will track tokens currently in use. Key = token name, value = list containing
 #     [0] original URL (to retrieve when accessed), [1] timestamp of when it should be deleted.
 active_tokens = {}
 
@@ -38,7 +38,7 @@ def return_index():
 def return_result():
     """
     Processes the user accessing the results page. 
-    If a GET, normal access (not POST from form) and redirects the user to the home page.
+    If a GET (not POST from form on '/'), redirects the user to the home page to submit a URL to shorten.
     Else, generates a shortened URL and displays it to the user.
     """
     if request.method == 'GET':
@@ -63,15 +63,13 @@ def redirect_to_original_url(url_token):
     If an URL with no valid token is entered, redirects to the home page.
 
     Args:
-        url_token (str): the token to find the original URL for
-
+        url_token (str): the token to find the original URL for.
     """
     try:
         original_url = url_processor.get_original_url(active_tokens, url_token)
+        return redirect(original_url)
     except KeyError:
         return redirect('/', code=404)
-
-    return redirect(original_url)
 
 
 if __name__ == "__main__":

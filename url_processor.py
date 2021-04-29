@@ -3,23 +3,23 @@ import random
 import string
 
 """
-    This script will be responsible for the shortening of the URL passed in by the user.
+    This script is responsible for the shortening and unshortening of the URL passed in by the user.
 """
 
 
 def generate_url_token(active_tokens, token_length=7):
     """
-    Generates a token (generated from letters and numbers) to be used for the shortened URL. Loop ensures that the token
-     is currently not in use to avoid overriding.
+    Generates a token (from letters and numbers) to be used for the shortened URL. 
+    Loop ensures that the token is currently not in use to avoid overriding.
 
     Args:
         active_tokens (dict): a dictionary containing tokens currently in use. K = token,
             V = list containing [0] original URL [1] the timestamp for expiry/removal.
         token_length (int): the length of the token in characters, defaulted to 7.
     Returns:
-        token (str): the shortened url token
+        token (str): the shortened url token.
     """
-    
+
     continue_loop = True
     while continue_loop is True:
         session_token_charset = string.ascii_letters + string.digits
@@ -34,14 +34,15 @@ def generate_url_token(active_tokens, token_length=7):
 
 def check_url_token(token, active_tokens):
     """
-    Checks if the currently generated shortened token is currently in use. If so, returns True. Else, returns False.
+    Checks if the currently generated shortened token is currently in use by checking the keys in active_tokens. 
+    If so, returns True. Else, returns False.
 
     Args:
         token (str): The potential shortened URL token.
         active_tokens (dict): a dictionary containing all tokens in use (as a key) and a value list containing
             [0] original URL [1] the timestamp for expiry/removal.
     Returns:
-        bool: the return value. True if it is in use, else False.
+        bool: the return value. True if token is in use, else False.
     """
     if token in active_tokens:
         return True
@@ -51,8 +52,8 @@ def check_url_token(token, active_tokens):
 
 def add_url_token(active_tokens, url_token, original_url, expiry):
     """
-    Adds the shortened url token to the global dictionary. This will be called once validation (check_url_token) has
-    ensured the token is valid.
+    Adds the shortened url token to the active_tokens dictionary. This will be called once validation (check_url_token)
+    has ensured the token is valid.
 
     Args:
         active_tokens (dict): a dictionary containing all tokens in use (as a key) and a value list containing
@@ -64,40 +65,43 @@ def add_url_token(active_tokens, url_token, original_url, expiry):
     """
 
     if int(expiry) == 1:
-        expiry_date = datetime.now() + timedelta(minutes=1)  # Expires in one minute
+        expiry_date = datetime.now() + timedelta(minutes=1)  # Timestamp to flag for removal in one minute
     elif int(expiry) == 2:
-        expiry_date = datetime.now() + timedelta(hours=1)  # Expires in one hour
+        expiry_date = datetime.now() + timedelta(hours=1)  # Timestamp to flag for removal in one hour
     elif int(expiry) == 3:
-        expiry_date = datetime.now() + timedelta(days=1)  # Expires in one day
+        expiry_date = datetime.now() + timedelta(days=1)  # Timestamp to flag for removal in one day
     elif int(expiry) == 4:
-        expiry_date = datetime.now() + timedelta(days=7300)  # Expires 'never', still need some sort of limit (20 years)
-    
+        # Timestamp to flag for removal 'never', still need some sort of limit (20 years)
+        expiry_date = datetime.now() + timedelta(days=7300)
+
     active_tokens[url_token] = [original_url, expiry_date]
 
 
 def get_original_url(active_tokens, url_token):
-    """Retrieves the original URL from the dictionary to redirect the user when they enter the shortened URL.
-       Ensures the URL contains http:// prior to returning, as to ensure redirection to an external site.
+    """
+    Retrieves the original URL from the dictionary to redirect the user when they enter the shortened URL at
+    'localhost:500/short/<token>'.
+    Ensures the URL contains 'http://' prior to returning, as to ensure redirection to an external site.
 
     Args:
         active_tokens (dict): a dictionary containing all tokens in use (as a key) and a value list containing
             [0] original URL [1] the timestamp for expiry/removal.
-        url_token (str): the token to retrieve the URL from
+        url_token (str): the token to retrieve the URL from.
     Returns:
-        (str): the original URL (prefixes with 'http://' if this was not already there)
+        (str): the original URL (prefixes with 'http://' if this was not already there, to redirect externally).
     """
     if 'http://' in active_tokens[url_token][0]:
         return active_tokens[url_token][0]
     else:
         return "http://" + active_tokens[url_token][0]
 
- 
+
 def check_for_removal(active_tokens):
     """
     Iterates through a copy of the active_tokens dictionary, checking the timestamp held in the [1] element of the
         value list.
-    If the current timestamp > the timestamp marked for expiry within the list, calls for the removal of this from
-        the list.
+    If the current timestamp (generated upon method call) > the timestamp within the list, calls for the removal of
+    this from the active_tokens dictionary.
 
     Args:
         active_tokens (dict): a dictionary containing all tokens in use (as a key) and a value list containing

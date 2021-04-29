@@ -4,12 +4,17 @@ from main import app
 
 class FlaskTest(unittest.TestCase):
 
+    """
+    This test suite will test the routing within main.py, ensuring routes successfully work, load and
+    redirect when necessary.
+    """
+    
     def setUp(self):
         app.config['TESTING'] = True
 
     def test_index_route(self):
         """
-        Check for response 200 on the index page
+        Check for response 200 on the index page ('/' route).
         """
         tester = app.test_client()
         response = tester.get('/')
@@ -18,7 +23,7 @@ class FlaskTest(unittest.TestCase):
 
     def test_index_loads(self):
         """
-        Checks that the home route '/' loads properly by checking for some page text of home.html in response data
+        Checks that the home route '/' loads properly by checking for some text of home.html in response data.
         """
         tester = app.test_client()
         response = tester.get('/')
@@ -27,7 +32,7 @@ class FlaskTest(unittest.TestCase):
     def test_results_get(self):
         """
         Asserts true of a status code of 302, showing there has been a redirect as this page should only be accessed
-        through POST of forum in home.html
+        through POST of form in home.html ('/').
         """
         tester = app.test_client()
         response = tester.get('/results')
@@ -36,7 +41,7 @@ class FlaskTest(unittest.TestCase):
     
     def test_results_post(self):
         """
-        Asserts true of a status code of 200, showing the page has successfully been served after a POST request
+        Asserts true of a status code of 200, showing the page has successfully been served after a POST request.
         was made.
         """
         tester = app.test_client()
@@ -47,16 +52,15 @@ class FlaskTest(unittest.TestCase):
     def test_results_loads(self):
         """
         Checks that the results route '/results/' loads properly (after a successful POST) by checking for some
-        page text of results.html in response data
+        page text of results.html in response data.
         """
         tester = app.test_client()
         response = tester.post('/results', data={'urlName': 'google.com', 'expiryTime': '1'})
-        
         self.assertTrue(b'Your shortened URL is:' in response.data)
 
     def test_false_route(self):
         """
-        Checks for 404  response on a route that does not exist
+        Checks for 404  response on a route that does not exist.
         """
         tester = app.test_client()
         response = tester.get('/short/test')

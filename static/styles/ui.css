@@ -18,3 +18,33 @@
   margin-left: 47%;
   padding-top: 10px;
 }
+
+
+@media only screen and (max-width: 1100px) {
+
+  /* Removes some of the margin on the title for tablet screens */
+
+  #homeTitle{
+    margin-left: 20%;
+  }
+
+  #resultsTitle{
+    margin-left: 35%;
+  }
+
+  #resultID {
+    margin-left: 35%;
+  }
+}
+
+@media only screen and (max-width: 700px) {
+  /* Removes some of the margin on the title for mobile screens */
+  
+  #resultsTitle{
+    margin-left: 20%;
+  }
+
+  #resultID {
+    margin-left: 20%;
+  }
+}

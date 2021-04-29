@@ -1,5 +1,3 @@
-// This file will contain validation to ensure a valid URL has been entered
-
 $(document).ready(function () {
   /**
    * Checks if there is any input within the fields of the forms
